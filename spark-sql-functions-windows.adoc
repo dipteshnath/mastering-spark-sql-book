@@ -309,7 +309,7 @@ scala> dataset.show
 |      Pro2|    tablet|   6500|
 +----------+----------+-------+
 
-scala> data.where('category === "tablet").show
+scala> dataset.where('category === "tablet").show
 +-------+--------+-------+
 |product|category|revenue|
 +-------+--------+-------+
@@ -327,7 +327,7 @@ The question boils down to ranking products in a category based on their revenue
 import org.apache.spark.sql.expressions.Window
 val overCategory = Window.partitionBy('category).orderBy('revenue.desc)
 
-val ranked = data.withColumn("rank", dense_rank.over(overCategory))
+val ranked = dataset.withColumn("rank", dense_rank.over(overCategory))
 
 scala> ranked.show
 +----------+----------+-------+----+
@@ -366,7 +366,7 @@ import org.apache.spark.sql.expressions.Window
 val reveDesc = Window.partitionBy('category).orderBy('revenue.desc)
 val reveDiff = max('revenue).over(reveDesc) - 'revenue
 
-scala> data.select('*, reveDiff as 'revenue_diff).show
+scala> dataset.select('*, reveDiff as 'revenue_diff).show
 +----------+----------+-------+------------+
 |   product|  category|revenue|revenue_diff|
 +----------+----------+-------+------------+
